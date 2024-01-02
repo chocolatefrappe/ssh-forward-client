@@ -31,8 +31,12 @@ if [ ! -f "$PRIVATE_KEY_FILE" ]; then
 	exit 1
 fi
 
-entrypoint_log "INFO: Fetching public key from $REMOTE_HOST..."
-ssh-keyscan "$REMOTE_HOST" > /etc/ssh/ssh_known_hosts
+entrypoint_log "INFO: Fetching public key from host $REMOTE_HOST..."
+echo "" > /etc/ssh/ssh_known_hosts
+ssh-keyscan "$REMOTE_HOST" | while read -r line; do
+	echo "Host Key: $line"
+	echo "$line" >> /etc/ssh/ssh_known_hosts
+done
 sleep 1
 
 entrypoint_log "INFO: Starting ssh tunnel to $REMOTE_TARGET..."

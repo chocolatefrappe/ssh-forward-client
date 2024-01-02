@@ -1,5 +1,5 @@
 x-proxy-service-conf: &proxy-service-conf
-  image: chocolatefrappe/ssh-proxy-client:main
+  image: chocolatefrappe/ssh-proxy-client:local
   environment:
     - REMOTE_USER=${REMOTE_USER:?please set REMOTE_USER variable}
     - REMOTE_HOST=${REMOTE_HOST:?please set REMOTE_HOST variable}

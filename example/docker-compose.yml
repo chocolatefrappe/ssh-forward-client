@@ -1,0 +1,31 @@
+x-proxy-service-conf: &proxy-service-conf
+  image: chocolatefrappe/ssh-proxy-client:main
+  environment:
+    - REMOTE_USER=${REMOTE_USER:?please set REMOTE_USER variable}
+    - REMOTE_HOST=${REMOTE_HOST:?please set REMOTE_HOST variable}
+  secrets:
+    - source: key
+      mode: 0600
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "3"
+  deploy:
+    resources:
+      limits:
+        cpus: '0.25'
+        memory: 64M
+    restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+secrets:
+  key:
+    file: key
+
+services:
+  example:
+    <<: *proxy-service-conf
+    command: -R 9090:10.10.200.38:80

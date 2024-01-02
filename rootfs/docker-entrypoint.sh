@@ -34,7 +34,6 @@ set -x
 exec ssh -NT \
 	-i "$PRIVATE_KEY_FILE" \
 		-o StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING} \
-		-o IdentitiesOnly=yes \
 		-o ConnectTimeout=${SSH_CONNECT_TIMEOUT} \
 		-o ServerAliveInterval=${SSH_SERVER_ALIVE_INTERVAL} \
 		-o ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX} \

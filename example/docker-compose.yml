@@ -6,8 +6,6 @@ x-proxy-service-conf: &proxy-service-conf
   secrets:
     - source: key
       mode: 0600
-  volumes:
-    - controlmasters:/run/controlmasters
   logging:
     driver: json-file
     options:
@@ -26,8 +24,6 @@ x-proxy-service-conf: &proxy-service-conf
 secrets:
   key:
     file: key
-volumes:
-  controlmasters:
 
 services:
   example:

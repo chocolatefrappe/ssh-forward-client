@@ -1,7 +1,5 @@
 > [!WARNING]
-> This project is for personal use only.
->
-> **Use at your own risk!**
+> This project is for personal use only. **Use at your own risk!**
 
 # ssh-proxy-client
 A SSH Client for configure port forwarding as a container.

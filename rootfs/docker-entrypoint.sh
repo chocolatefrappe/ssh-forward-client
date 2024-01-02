@@ -33,6 +33,9 @@ fi
 
 entrypoint_log "INFO: Fetching public key from host $REMOTE_HOST"
 ssh-keyscan "$REMOTE_HOST" > /etc/ssh/ssh_known_hosts
+cat /etc/ssh/ssh_known_hosts | while read line; do
+	entrypoint_log "INFO: Added host key: $line"
+done
 
 entrypoint_log "INFO: Checking private key file..."
 ssh-keygen -lvf "$PRIVATE_KEY_FILE"

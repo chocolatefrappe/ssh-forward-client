@@ -34,7 +34,7 @@ fi
 entrypoint_log "INFO: Fetching public key from host $REMOTE_HOST..."
 echo "" > /etc/ssh/ssh_known_hosts
 ssh-keyscan "$REMOTE_HOST" | while read -r line; do
-	echo "Host Key: $line"
+	echo "ssh-keyscan: $line"
 	echo "$line" >> /etc/ssh/ssh_known_hosts
 done
 sleep 1

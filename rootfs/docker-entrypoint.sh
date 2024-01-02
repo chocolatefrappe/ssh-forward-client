@@ -50,4 +50,4 @@ CMD_FLAGS+=("-o" "ExitOnForwardFailure=yes")
 CMD_FLAGS+=("-i" "$PRIVATE_KEY_FILE")
 CMD_FLAGS+=("-NT")
 set -x
-exec ssh -NT "${CMD_FLAGS[@]}" "$@" "${REMOTE_TARGET}"
+exec ssh "${CMD_FLAGS[@]}" "$@" "${REMOTE_TARGET}"

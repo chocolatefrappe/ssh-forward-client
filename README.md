@@ -3,7 +3,7 @@
 >
 > **Use at your own risk!**
 
-# ssh-forward-client
+# ssh-proxy-client
 A SSH Client for configure port forwarding as a container.
 
 ## Usage
@@ -16,7 +16,7 @@ First, make a copy of the `example` directory to configure for your own use.
 Generate a key pair for the SSH Forward Client container.
 
 ```sh
-ssh-keygen -t ed25519 -f key -C "ssh-forward-client"
+ssh-keygen -t ed25519 -f key -C "ssh-proxy-client"
 ```
 
 > [!NOTE]

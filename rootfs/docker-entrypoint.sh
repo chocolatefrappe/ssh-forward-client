@@ -7,7 +7,7 @@ PRIVATE_KEY_FILE="/run/secrets/key"
 PUBLIC_KEY_FILE="/run/secrets/key.pub"
 SSH_STRICT_HOST_KEY_CHECKING="${SSH_STRICT_HOST_KEY_CHECKING:-yes}"
 SSH_SERVER_ALIVE_INTERVAL="${SSH_SERVER_ALIVE_INTERVAL:-30}"
-SSH_SERVER_ALIVE_COUNT_MAX="${SSH_SERVER_ALIVE_COUNT_MAX:-1}"
+SSH_SERVER_ALIVE_COUNT_MAX="${SSH_SERVER_ALIVE_COUNT_MAX:-10000}"
 
 # Check if the first argument is "bash" or "/bin/bash"
 if [ "$1" = "bash" ] || [ "$1" = "/bin/bash" ]; then

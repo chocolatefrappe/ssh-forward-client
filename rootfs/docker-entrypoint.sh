@@ -41,13 +41,13 @@ entrypoint_log "INFO: Checking private key file..."
 ssh-keygen -lvf "$PRIVATE_KEY_FILE"
 
 entrypoint_log "INFO: Starting ssh proxy to $REMOTE_TARGET..."
+CMD_FLAGS=()
+CMD_FLAGS+=("-o" "ConnectTimeout=${SSH_CONNECT_TIMEOUT}")
+CMD_FLAGS+=("-o" "StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING}")
+CMD_FLAGS+=("-o" "ServerAliveInterval=${SSH_SERVER_ALIVE_INTERVAL}")
+CMD_FLAGS+=("-o" "ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX}")
+CMD_FLAGS+=("-o" "ExitOnForwardFailure=yes")
+CMD_FLAGS+=("-i" "$PRIVATE_KEY_FILE")
+CMD_FLAGS+=("-NT")
 set -x
-exec ssh -NT \
-	-i "$PRIVATE_KEY_FILE" \
-		-o StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING} \
-		-o ConnectTimeout=${SSH_CONNECT_TIMEOUT} \
-		-o ServerAliveInterval=${SSH_SERVER_ALIVE_INTERVAL} \
-		-o ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX} \
-		-o ExitOnForwardFailure=yes \
-	"$@" \
-	"${REMOTE_TARGET}"
+exec ssh -NT "${CMD_FLAGS[@]}" "$@" "${REMOTE_TARGET}"

@@ -30,7 +30,7 @@ ssh-keyscan "$REMOTE_HOST" >> /etc/ssh/ssh_known_hosts
 
 echo "INFO: Starting ssh tunnel to $REMOTE_TARGET"
 set -x
-exec ssh -vv -NT \
+exec ssh -NT \
 	-i "$PRIVATE_KEY_FILE" \
 		-o StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING} \
 		-o IdentitiesOnly=yes \

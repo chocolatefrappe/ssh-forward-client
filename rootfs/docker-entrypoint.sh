@@ -40,7 +40,7 @@ done
 entrypoint_log "INFO: Checking private key file..."
 ssh-keygen -lvf "$PRIVATE_KEY_FILE"
 
-entrypoint_log "INFO: Starting ssh tunnel to $REMOTE_TARGET..."
+entrypoint_log "INFO: Starting ssh proxy to $REMOTE_TARGET..."
 set -x
 exec ssh -NT \
 	-i "$PRIVATE_KEY_FILE" \

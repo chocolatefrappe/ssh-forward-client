@@ -39,6 +39,9 @@ ssh-keyscan "$REMOTE_HOST" | while read -r line; do
 done
 sleep 5
 
+entrypoint_log "INFO: Checking private key file..."
+ssh-keygen -lvf "$PRIVATE_KEY_FILE"
+
 entrypoint_log "INFO: Starting ssh tunnel to $REMOTE_TARGET..."
 set -x
 exec ssh -NT \

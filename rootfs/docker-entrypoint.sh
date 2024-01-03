@@ -41,7 +41,7 @@ done
 entrypoint_log "INFO: Checking private key file..."
 ssh-keygen -lvf "$PRIVATE_KEY_FILE"
 
-entrypoint_log "INFO: Starting ssh proxy to $REMOTE_TARGET..."
+entrypoint_log "INFO: Starting ssh proxy service..."
 CMD_FLAGS=()
 CMD_FLAGS+=("-o" "ConnectTimeout=${SSH_CONNECT_TIMEOUT}")
 CMD_FLAGS+=("-o" "StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING}")

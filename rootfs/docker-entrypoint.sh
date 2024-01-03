@@ -3,6 +3,7 @@ set -e
 ME=$(basename "$0")
 REMOTE_USER="${REMOTE_USER}"
 REMOTE_HOST="${REMOTE_HOST}"
+REMOTE_PORT="${REMOTE_PORT}"
 REMOTE_TARGET="${REMOTE_USER}@${REMOTE_HOST}"
 PRIVATE_KEY_FILE="/run/secrets/key"
 PUBLIC_KEY_FILE="/run/secrets/key.pub"
@@ -49,5 +50,7 @@ CMD_FLAGS+=("-o" "ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX}")
 CMD_FLAGS+=("-o" "ExitOnForwardFailure=yes")
 CMD_FLAGS+=("-i" "$PRIVATE_KEY_FILE")
 CMD_FLAGS+=("-NT")
+test -n "${REMOTE_PORT}" && CMD_FLAGS+=("-p" "${REMOTE_PORT}")
+
 set -x
 exec ssh "${CMD_FLAGS[@]}" "$@" "${REMOTE_TARGET}"

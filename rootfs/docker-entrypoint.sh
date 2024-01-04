@@ -42,13 +42,14 @@ entrypoint_log "INFO: Checking private key file..."
 ssh-keygen -lvf "$PRIVATE_KEY_FILE"
 
 entrypoint_log "INFO: Starting ssh proxy service..."
-CMD_FLAGS=()
-CMD_FLAGS+=("-o" "ConnectTimeout=${SSH_CONNECT_TIMEOUT}")
-CMD_FLAGS+=("-o" "StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING}")
-CMD_FLAGS+=("-o" "ServerAliveInterval=${SSH_SERVER_ALIVE_INTERVAL}")
-CMD_FLAGS+=("-o" "ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX}")
-CMD_FLAGS+=("-i" "$PRIVATE_KEY_FILE")
-CMD_FLAGS+=("-NT")
+CMD_FLAGS=(
+	-o ConnectTimeout=${SSH_CONNECT_TIMEOUT}
+	-o StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING}
+	-o ServerAliveInterval=${SSH_SERVER_ALIVE_INTERVAL}
+	-o ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX}
+	-i $PRIVATE_KEY_FILE
+	-NT
+)
 test -n "${REMOTE_PORT}" && CMD_FLAGS+=("-p" "${REMOTE_PORT}")
 
 set -x

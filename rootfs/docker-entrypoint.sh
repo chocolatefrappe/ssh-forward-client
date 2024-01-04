@@ -32,8 +32,10 @@ if [ ! -f "$PRIVATE_KEY_FILE" ]; then
 	exit 1
 fi
 
+SSH_KEYSCAN_FLAGS=()
+test -n "${REMOTE_PORT}" && SSH_KEYSCAN_FLAGS+=("-p" "${REMOTE_PORT}")
 entrypoint_log "INFO: Fetching public key from host $REMOTE_HOST..."
-ssh-keyscan "$REMOTE_HOST" > /etc/ssh/ssh_known_hosts
+ssh-keyscan "${SSH_KEYSCAN_FLAGS[@]}" "$REMOTE_HOST" > /etc/ssh/ssh_known_hosts
 cat /etc/ssh/ssh_known_hosts | while read line; do
 	entrypoint_log "INFO: Added host key: $line"
 done

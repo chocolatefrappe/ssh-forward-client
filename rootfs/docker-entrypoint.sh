@@ -33,13 +33,6 @@ if [ ! -f "$PRIVATE_KEY_FILE" ]; then
 fi
 
 {
-	entrypoint_log "INFO: Generate new host keys..."
-	ssh-keygen -A | while read -r line; do
-		entrypoint_log "INFO: $line"
-	done
-}
-
-{
 	SSH_KEYSCAN_FLAGS=()
 	test -n "${REMOTE_PORT}" && SSH_KEYSCAN_FLAGS+=("-p" "${REMOTE_PORT}")
 	entrypoint_log "INFO: Fetching public key from host $REMOTE_HOST..."

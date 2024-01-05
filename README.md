@@ -4,7 +4,6 @@
 # About
 A SSH Client in a container for configure remote port forwarding using Reverse SSH Tunnelling.
 
-
 ### SSH Tunneling Explained
 
 **Exposing service running in localhost of a server behind NAT to the internet**
@@ -25,6 +24,10 @@ machine is behind NAT. The remote server, on the other hand, can be reachable vi
 3. Now, when users from distant internet visit port `80` of the remote server as `http://<remote_server_ip>`, the request is redirected back to the client's local server (port `3000`) via SSH tunnel where the local server handles the request and response.
 
 By default, the remote port forwarding tunnel will bind to the `localhost` of the remote server. To enable it to listen on the public interface (for a scenario like above), set the SSH configuration `GatewayPorts yes` in `sshd_config`.
+
+**Further reading**:
+- https://www.ssh.com/ssh/tunneling/example
+- https://goteleport.com/blog/ssh-tunneling-explained
 
 
 ## Usage

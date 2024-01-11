@@ -15,5 +15,5 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/socheatsok78/s6-overla
 ADD --chmod=0755 https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it
 
 ADD rootfs /
-ENTRYPOINT [ "/init-shim", "/docker-entrypoint.sh"]
 VOLUME [ "/keys.d" ]
+ENTRYPOINT [ "/init-shim", "/docker-entrypoint.sh"]

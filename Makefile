@@ -16,7 +16,7 @@ build:
 	@echo
 
 run:
-	docker run -it --rm docker.io/chocolatefrappe/ssh-proxy-client:local bash
+	docker run -it --rm docker.io/chocolatefrappe/ssh-proxy-client:local
 
 .PHONY: example
 example: example/deploy

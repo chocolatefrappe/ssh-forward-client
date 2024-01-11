@@ -61,11 +61,6 @@ if [ ! -f "$PRIVATE_KEY_FILE" ]; then
 	entrypoint_exit 2
 fi
 
-{
-	entrypoint_log "INFO: Checking private key file..."
-	ssh-keygen -lvf "$PRIVATE_KEY_FILE"
-}
-
 # Load ssh-agent if available
 export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh-agent.sock}"
 if [ -S "${SSH_AUTH_SOCK}" ]; then
@@ -79,7 +74,7 @@ if [ -S "${SSH_AUTH_SOCK}" ]; then
 		ssh-add -v "$key"
 	done
 	# List all private keys
-	entrypoint_log "INFO: Listing private keys..."
+	entrypoint_log "INFO: Listing all private keys in ssh-agent..."
 	ssh-add -lv
 }
 fi

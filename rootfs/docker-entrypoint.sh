@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh-agent.sock}"
+
 ME=$(basename "$0")
 
 REMOTE_USER="${REMOTE_USER}"
@@ -62,7 +64,6 @@ if [ ! -f "$PRIVATE_KEY_FILE" ]; then
 fi
 
 # Load ssh-agent if available
-export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh-agent.sock}"
 if [ -S "${SSH_AUTH_SOCK}" ]; then
 {
 	# Add private key from container secrets

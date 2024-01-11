@@ -67,10 +67,9 @@ fi
 }
 
 # Load ssh-agent if available
-if [ -f "/etc/ssh/.ssh-agent" ]; then
+export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh-agent.sock}"
+if [ -S "${SSH_AUTH_SOCK}" ]; then
 {
-	# Load ssh-agent environment variables
-	source "/etc/ssh/.ssh-agent"
 	# Add private key from container secrets
 	entrypoint_log "INFO: Adding private key to ssh-agent: $PRIVATE_KEY_FILE"
 	ssh-add -v "$PRIVATE_KEY_FILE"

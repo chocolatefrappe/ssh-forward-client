@@ -1,4 +1,5 @@
 #!/bin/bash
 set -eao pipefail
-echo "ssh-agent: INFO: Starting ssh-agent service..."
-ssh-agent -D > /etc/ssh/.ssh-agent
+SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh-agent.sock}"
+echo "ssh-agent: INFO: Starting ssh-agent service (SSH_AUTH_SOCK=${SSH_AUTH_SOCK})..."
+ssh-agent -D -a ${SSH_AUTH_SOCK} >/dev/null

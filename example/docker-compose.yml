@@ -5,7 +5,8 @@ x-proxy-service-conf: &proxy-service-conf
     - REMOTE_HOST=${REMOTE_HOST:?please set REMOTE_HOST variable}
     - REMOTE_PORT
   secrets:
-    - source: key
+    - source: private_key
+      target: /keys.d/private_key
       mode: 0600
   logging:
     driver: json-file
@@ -21,7 +22,7 @@ x-proxy-service-conf: &proxy-service-conf
       delay: 15s
       window: 120s
 secrets:
-  key:
+  private_key:
     file: key
 
 services:

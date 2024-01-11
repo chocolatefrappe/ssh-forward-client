@@ -18,9 +18,7 @@ x-proxy-service-conf: &proxy-service-conf
         cpus: '0.25'
         memory: 64M
     restart_policy:
-      condition: on-failure
       delay: 15s
-      max_attempts: 3
       window: 120s
 secrets:
   key:
@@ -29,4 +27,4 @@ secrets:
 services:
   example:
     <<: *proxy-service-conf
-    command: -R 9090:10.10.200.38:80
+    command: -R 0.0.0.0:8081:192.168.131.254:8081

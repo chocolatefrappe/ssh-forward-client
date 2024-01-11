@@ -1,3 +1,4 @@
+.vscode/
 example/.env
 example/key
 example/key.pub

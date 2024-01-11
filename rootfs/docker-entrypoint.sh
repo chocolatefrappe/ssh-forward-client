@@ -70,7 +70,7 @@ if [ -S "${SSH_AUTH_SOCK}" ]; then
 	entrypoint_log "INFO: Adding private key to ssh-agent: $PRIVATE_KEY_FILE"
 	ssh-add -v "$PRIVATE_KEY_FILE"
 	# Add all private keys from /keys.d/ directory
-	ls /keys.d/* | while read key; do
+	ls /keys.d/ | while read key; do
 		entrypoint_log "INFO: Adding private key to ssh-agent: $key"
 		ssh-add -v "$key"
 	done

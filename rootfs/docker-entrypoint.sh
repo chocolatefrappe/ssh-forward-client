@@ -69,7 +69,8 @@ else
 	SSH_KEYSCAN_FLAGS=()
 	test -n "${REMOTE_PORT}" && SSH_KEYSCAN_FLAGS+=("-p" "${REMOTE_PORT}")
 	entrypoint_log "============================== !!! Warning !!! =============================="
-	entrypoint_log "   Fetching public key from host $REMOTE_HOST..."
+	entrypoint_log "   Scanning host keys from: $REMOTE_HOST:${REMOTE_PORT:-22}..."
+	entrypoint_log ""
 	entrypoint_log "   This is not recommended and should only be used for testing purposes."
 	entrypoint_log "   Please provide a known_hosts file using container secrets or volume."
 	entrypoint_log "============================================================================="

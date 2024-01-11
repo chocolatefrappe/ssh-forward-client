@@ -16,7 +16,6 @@ SSH_SERVER_ALIVE_INTERVAL="${SSH_SERVER_ALIVE_INTERVAL:-30}"
 SSH_SERVER_ALIVE_COUNT_MAX="${SSH_SERVER_ALIVE_COUNT_MAX:-10000}"
 
 # Container Secrets
-PRIVATE_KEY_FILE="${PRIVATE_KEY_FILE:-/run/secrets/key}"
 SSH_KNOWN_HOSTS_FILE=${SSH_KNOWN_HOSTS_FILE:-/run/secrets/known_hosts}
 
 # Default
@@ -55,24 +54,14 @@ if [ "$REMOTE_USER" = "" ] || [ "$REMOTE_HOST" = "" ]; then
 	entrypoint_exit 1
 fi
 
-# Check if private key file exists
-if [ ! -f "$PRIVATE_KEY_FILE" ]; then
-	entrypoint_log "ERROR: Unable to find private key file, PRIVATE_KEY_FILE=${PRIVATE_KEY_FILE}."
-	entrypoint_log "       Please mount your private key file to the container and set PRIVATE_KEY_FILE environment variable"
-	entrypoint_log "       or mount using use container secrets."
-	entrypoint_exit 2
-fi
-
 # Load ssh-agent if available
 if [ -S "${SSH_AUTH_SOCK}" ]; then
 {
-	# Add private key from container secrets
-	entrypoint_log "INFO: Adding private key to ssh-agent: $PRIVATE_KEY_FILE"
-	ssh-add -v "$PRIVATE_KEY_FILE"
 	# Add all private keys from /keys.d/ directory
-	ls /keys.d/ | while read key; do
+	_KEYS_DIR="/keys.d"
+	ls ${_KEYS_DIR} | while read key; do
 		entrypoint_log "INFO: Adding private key to ssh-agent: $key"
-		ssh-add -v "$key"
+		ssh-add -v "${_KEYS_DIR}/$key"
 	done
 	# List all private keys
 	entrypoint_log "INFO: Listing all private keys in ssh-agent..."

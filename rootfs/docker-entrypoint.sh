@@ -26,11 +26,13 @@ if [ "$1" = "sh" ] || [ "$1" = "/bin/sh" ]; then
 	exec "$@"
 fi
 
+# Check pre-requisites environment variables
 if [ "$REMOTE_USER" = "" ] || [ "$REMOTE_HOST" = "" ]; then
 	entrypoint_log "ERROR: Please set REMOTE_USER and REMOTE_HOST environment variables"
 	exit 1
 fi
 
+# Check if private key file exists
 if [ ! -f "$PRIVATE_KEY_FILE" ]; then
 	entrypoint_log "ERROR: Unable to find private key file"
 	entrypoint_log "       Please mount your private key file to $PRIVATE_KEY_FILE"

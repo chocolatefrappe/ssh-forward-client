@@ -98,13 +98,31 @@ fi
 	ssh-keygen -lvf "$PRIVATE_KEY_FILE"
 }
 
+# Load ssh-agent if available
+if [ -f "/etc/ssh/.ssh-agent" ]; then
+{
+	# Load ssh-agent environment variables
+	source "/etc/ssh/.ssh-agent"
+	# Add private key from container secrets
+	entrypoint_log "INFO: Adding private key to ssh-agent: $PRIVATE_KEY_FILE"
+	ssh-add -v "$PRIVATE_KEY_FILE"
+	# Add all private keys from /keys.d/ directory
+	ls /keys.d/* | while read key; do
+		entrypoint_log "INFO: Adding private key to ssh-agent: $key"
+		ssh-add -v "$key"
+	done
+	# List all private keys
+	entrypoint_log "INFO: Listing private keys..."
+	ssh-add -lv
+}
+fi
+
 entrypoint_log "INFO: Starting ssh proxy service..."
 CMD_FLAGS=(
 	-o ConnectTimeout=${SSH_CONNECT_TIMEOUT}
 	-o StrictHostKeyChecking=${SSH_STRICT_HOST_KEY_CHECKING}
 	-o ServerAliveInterval=${SSH_SERVER_ALIVE_INTERVAL}
 	-o ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX}
-	-i $PRIVATE_KEY_FILE
 	-NT
 )
 test -n "${REMOTE_PORT}" && CMD_FLAGS+=("-p" "${REMOTE_PORT}")

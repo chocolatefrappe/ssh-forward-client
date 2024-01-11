@@ -15,3 +15,4 @@ ADD --chmod=0755 https://raw.githubusercontent.com/vishnubob/wait-for-it/master/
 
 ADD rootfs /
 ENTRYPOINT [ "/init-shim", "/docker-entrypoint.sh"]
+VOLUME [ "/keys.d" ]

@@ -24,9 +24,13 @@ entrypoint_log() {
 	echo "$ME: $*"
 }
 
+entrypoint_log_n() {
+	echo -n "$ME: $*"
+}
+
 entrypoint_exit() {
 	local exit_code=$1
-	entrypoint_log "INFO: Exiting... (code: $exit_code)"
+	entrypoint_log "ERROR: Exiting... (code: $exit_code)"
 	exit $exit_code
 }
 
@@ -68,6 +72,14 @@ else
 {
 	SSH_KEYSCAN_FLAGS=()
 	test -n "${REMOTE_PORT}" && SSH_KEYSCAN_FLAGS+=("-p" "${REMOTE_PORT}")
+	entrypoint_log_n "INFO: Waiting for remote host to be ready... "
+	if wait-for-it -q -t 15 "${REMOTE_HOST}:${REMOTE_PORT:-22}"; then
+		echo "[READY]"
+	else
+		echo "[NOT READY]"
+		entrypoint_log "ERROR: Remote (${REMOTE_HOST}:${REMOTE_PORT:-22}) is not ready, please check your connection and try again!"
+		entrypoint_exit 3
+	fi
 	entrypoint_log "============================== !!! Warning !!! =============================="
 	entrypoint_log "   Scanning host keys from: $REMOTE_HOST:${REMOTE_PORT:-22}..."
 	entrypoint_log ""

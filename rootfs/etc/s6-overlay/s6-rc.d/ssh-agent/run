@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eao pipefail
+echo "ssh-agent: INFO: Starting ssh-agent service..."
+ssh-agent -D > /etc/ssh/.ssh-agent

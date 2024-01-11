@@ -71,7 +71,7 @@ else
 	entrypoint_log "============================== !!! Warning !!! =============================="
 	entrypoint_log "   Scanning host keys from: $REMOTE_HOST:${REMOTE_PORT:-22}..."
 	entrypoint_log ""
-	entrypoint_log "   This is not recommended and should only be used for testing purposes."
+	entrypoint_log "   This is not recommended and should only be used for testing purposes,"
 	entrypoint_log "   Please provide a known_hosts file using container secrets or volume."
 	entrypoint_log "============================================================================="
 	ssh-keyscan "${SSH_KEYSCAN_FLAGS[@]}" "$REMOTE_HOST" > /etc/ssh/ssh_known_hosts

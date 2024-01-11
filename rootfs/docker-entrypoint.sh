@@ -40,6 +40,9 @@ if [ "$1" = "sh" ] || [ "$1" = "/bin/sh" ]; then
 	exec "$@"
 fi
 
+# Print banner
+test -f "/etc/ssh/banner" && cat /etc/ssh/banner
+
 # Check pre-requisites environment variables
 if [ "$REMOTE_USER" = "" ] || [ "$REMOTE_HOST" = "" ]; then
 	entrypoint_log "ERROR: Please set REMOTE_USER and REMOTE_HOST environment variables."

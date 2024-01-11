@@ -41,7 +41,7 @@ if [ "$1" = "sh" ] || [ "$1" = "/bin/sh" ]; then
 fi
 
 # Print banner
-test -f "/etc/ssh/banner" && cat /etc/ssh/banner
+test -f "/etc/ssh/banner" && cat "/etc/ssh/banner"
 
 # Check pre-requisites environment variables
 if [ "$REMOTE_USER" = "" ] || [ "$REMOTE_HOST" = "" ]; then

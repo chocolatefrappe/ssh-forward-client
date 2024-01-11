@@ -61,6 +61,30 @@ if [ ! -f "$PRIVATE_KEY_FILE" ]; then
 	entrypoint_exit 2
 fi
 
+{
+	entrypoint_log "INFO: Checking private key file..."
+	ssh-keygen -lvf "$PRIVATE_KEY_FILE"
+}
+
+# Load ssh-agent if available
+if [ -f "/etc/ssh/.ssh-agent" ]; then
+{
+	# Load ssh-agent environment variables
+	source "/etc/ssh/.ssh-agent"
+	# Add private key from container secrets
+	entrypoint_log "INFO: Adding private key to ssh-agent: $PRIVATE_KEY_FILE"
+	ssh-add -v "$PRIVATE_KEY_FILE"
+	# Add all private keys from /keys.d/ directory
+	ls /keys.d/* | while read key; do
+		entrypoint_log "INFO: Adding private key to ssh-agent: $key"
+		ssh-add -v "$key"
+	done
+	# List all private keys
+	entrypoint_log "INFO: Listing private keys..."
+	ssh-add -lv
+}
+fi
+
 # Allow adding custom known_hosts file from container secrets
 if [ -f "${SSH_KNOWN_HOSTS_FILE}" ]; then
 {
@@ -90,30 +114,6 @@ else
 	cat /etc/ssh/ssh_known_hosts | while read line; do
 		entrypoint_log "INFO: Added host key: $line"
 	done
-}
-fi
-
-{
-	entrypoint_log "INFO: Checking private key file..."
-	ssh-keygen -lvf "$PRIVATE_KEY_FILE"
-}
-
-# Load ssh-agent if available
-if [ -f "/etc/ssh/.ssh-agent" ]; then
-{
-	# Load ssh-agent environment variables
-	source "/etc/ssh/.ssh-agent"
-	# Add private key from container secrets
-	entrypoint_log "INFO: Adding private key to ssh-agent: $PRIVATE_KEY_FILE"
-	ssh-add -v "$PRIVATE_KEY_FILE"
-	# Add all private keys from /keys.d/ directory
-	ls /keys.d/* | while read key; do
-		entrypoint_log "INFO: Adding private key to ssh-agent: $key"
-		ssh-add -v "$key"
-	done
-	# List all private keys
-	entrypoint_log "INFO: Listing private keys..."
-	ssh-add -lv
 }
 fi
 

@@ -22,10 +22,17 @@ entrypoint_log "INFO: Starting ssh-add service..."
 inotifywait --quiet -r -m -e create,delete "${KEYS_DIR}" |
 	while read directory event filename; do
 		# entrypoint_log "DEBUG: directory: ${directory}, event: ${event}, filename: ${filename}"
-		entrypoint_log "INFO: ${event} private key to ssh-agent: ${directory}/${filename}"
-		# If a DELETE event was detected, restart sshd
-		if [ "$event" == "DELETE" ]; then
-			ssh-add -D
-		fi
-		ssh-add "${directory}/${filename}"
+		case "${event}" in
+			CREATE)
+				entrypoint_log "INFO: A new private key ${directory}${filename} was added"
+				ssh-add -qv "${directory}${filename}"
+			;;
+			DELETE)
+				entrypoint_log "INFO: A private key ${directory}${filename} was deleted, refreshing ssh-agent..."
+				ssh-add -D
+			;;
+			*)
+				entrypoint_log "WARN: The ${event} was not recognized, ignoring..."
+			;;
+		esac
 	done

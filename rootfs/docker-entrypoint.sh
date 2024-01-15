@@ -109,7 +109,6 @@ CMD_FLAGS=(
 	-o ServerAliveCountMax=${SSH_SERVER_ALIVE_COUNT_MAX}
 	-NT
 )
+entrypoint_log "INFO: + ${CMD_FLAGS[@]}"
 test -n "${REMOTE_PORT}" && CMD_FLAGS+=("-p" "${REMOTE_PORT}")
-
-set -x
-exec ssh "${CMD_FLAGS[@]}" "$@" "${REMOTE_TARGET}"
+exec s6-setuidgid guest ssh "${CMD_FLAGS[@]}" "$@" "${REMOTE_TARGET}"

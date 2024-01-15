@@ -1,1 +1,1 @@
-export SSH_AUTH_SOCK=/tmp/ssh-agent.sock
+export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh-agent.sock}"

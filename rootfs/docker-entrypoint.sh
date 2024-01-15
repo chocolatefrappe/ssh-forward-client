@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh-agent.sock}"
+source /etc/ssh/sshagentrc
 
 ME=$(basename "$0")
 

@@ -27,7 +27,7 @@ inotifywait --quiet -r -m -e create,delete "${KEYS_DIR}" |
 				ssh-add -qv "${directory}${filename}"
 			;;
 			DELETE)
-				entrypoint_log "INFO: A private key ${directory}${filename} was deleted, refreshing ssh-agent..."
+				entrypoint_log "INFO: A private key ${directory}${filename} was deleted, reloading ssh-agent..."
 				ssh-add -D
 			;;
 			*)

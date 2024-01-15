@@ -23,6 +23,9 @@ inotifywait --quiet -r -m -e create,delete "${KEYS_DIR}" |
 	while read directory event filename; do
 		# entrypoint_log "DEBUG: directory: ${directory}, event: ${event}, filename: ${filename}"
 		entrypoint_log "INFO: ${event} private key to ssh-agent: ${directory}/${filename}"
-		ssh-add -D
+		# If a DELETE event was detected, restart sshd
+		if [ "$event" == "DELETE" ]; then
+			ssh-add -D
+		fi
 		ssh-add "${directory}/${filename}"
 	done

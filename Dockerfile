@@ -3,6 +3,7 @@ FROM alpine
 RUN apk update && apk add --no-cache \
     bash \
     curl \
+    inotify-tools \
     openssh-client
 
 # https://github.com/socheatsok78/s6-overlay-installer

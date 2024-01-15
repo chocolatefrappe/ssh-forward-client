@@ -1,0 +1,28 @@
+#!/bin/bash
+set -eao pipefail
+source /etc/ssh/sshagentrc
+
+ME=ssh-keymon
+KEYS_DIR="/keys.d"
+
+entrypoint_log() {
+	echo "$ME: $*"
+}
+
+# Add all private keys from /keys.d/ directory
+ls "${KEYS_DIR}" | while read key; do
+	entrypoint_log "INFO: Adding private key to ssh-agent: ${KEYS_DIR}/$key"
+	ssh-add -qv "${KEYS_DIR}/$key"
+done
+# List all private keys
+entrypoint_log "INFO: Listing all private keys in ssh-agent..."
+ssh-add -lv
+
+entrypoint_log "INFO: Starting ssh-add service..."
+inotifywait --quiet -r -m -e create,delete "${KEYS_DIR}" |
+	while read directory event filename; do
+		# entrypoint_log "DEBUG: directory: ${directory}, event: ${event}, filename: ${filename}"
+		entrypoint_log "INFO: ${event} private key to ssh-agent: ${directory}/${filename}"
+		ssh-add -D
+		ssh-add "${directory}/${filename}"
+	done

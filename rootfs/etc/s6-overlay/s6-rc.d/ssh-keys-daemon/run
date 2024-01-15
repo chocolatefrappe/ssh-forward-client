@@ -21,7 +21,6 @@ ssh-add -lv
 entrypoint_log "INFO: Starting ssh-add service..."
 inotifywait --quiet -r -m -e create,delete "${KEYS_DIR}" |
 	while read directory event filename; do
-		# entrypoint_log "DEBUG: directory: ${directory}, event: ${event}, filename: ${filename}"
 		case "${event}" in
 			CREATE)
 				entrypoint_log "INFO: A new private key ${directory}${filename} was added"
@@ -32,6 +31,7 @@ inotifywait --quiet -r -m -e create,delete "${KEYS_DIR}" |
 				ssh-add -D
 			;;
 			*)
+				# entrypoint_log "DEBUG: directory: ${directory}, event: ${event}, filename: ${filename}"
 				entrypoint_log "WARN: The ${event} was not recognized, ignoring..."
 			;;
 		esac

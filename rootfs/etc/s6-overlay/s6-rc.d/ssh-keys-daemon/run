@@ -2,7 +2,7 @@
 set -eao pipefail
 source /etc/ssh/sshagentrc
 
-ME=ssh-keymon
+ME=ssh-keys-daemon
 KEYS_DIR="/keys.d"
 
 entrypoint_log() {
